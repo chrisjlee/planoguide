@@ -1,187 +1,173 @@
 'use strict';
 
 module.exports = function(grunt) {
-	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
-		app: 'app',
-		dist: 'dist',
 
-		sass: {
-			dist: {
-				options: {
-					style: 'expanded', // expanded or nested or compact or compressed
-					loadPath: '<%= app %>/bower_components/foundation/scss',
-					compass: true,
-					quiet: true
-				},
-				files: {
-					'<%= app %>/css/app.css': '<%= app %>/scss/app.scss'
-				}
-			}
-		},
+  require('load-grunt-tasks')(grunt);
 
-		
-		jade: {
-			compile: {
-				options: {
-					pretty: true,
-					data: {
-						debug: false
-					}
-				},
-				files: [{
-					expand: true,
-					cwd: '<%= app %>/',
-					src: ['**/*.jade', '!**/header.jade', '!**/footer.jade'],
-					ext: '.html',
-					dest: '<%= app %>/'
-				}]
-			}
-		},
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    app: 'app',
+    dist: 'dist',
 
-		jshint: {
-			options: {
-				jshintrc: '.jshintrc'
-			},
-			all: [
-				'Gruntfile.js',
-				'<%= app %>/js/**/*.js'
-			]
-		},
+    sass: {
+      dist: {
+        options: {
+          style: 'expanded', // expanded or nested or compact or compressed
+          loadPath: '<%= app %>/bower_components/foundation/scss',
+          compass: true,
+          quiet: true
+        },
+        files: {
+          '<%= app %>/css/app.css': '<%= app %>/scss/app.scss'
+        }
+      }
+    },
 
-		clean: {
-			dist: {
-				src: ['<%= dist %>/*']
-			},
-		},
-		copy: {
-			dist: {
-				files: [{
-					expand: true,
-					cwd:'<%= app %>/',
-					src: ['fonts/**', '**/*.html', '!**/*.scss', '!bower_components/**'],
-					dest: '<%= dist %>/'
-				}]
-			},
-		},
 
-		imagemin: {
-			target: {
-				files: [{
-					expand: true,
-					cwd: '<%= app %>/images/',
-					src: ['**/*.{jpg,gif,svg,jpeg,png}'],
-					dest: '<%= dist %>/images/'
-				}]
-			}
-		},
-		
-		uglify: {
-			options: {
-				preserveComments: 'some',
-				mangle: false
-			}
-		},
+    jade: {
+      compile: {
+        options: {
+          pretty: true,
+          data: {
+            debug: false
+          }
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= app %>/',
+          src: ['**/*.jade', '!**/header.jade', '!**/footer.jade'],
+          ext: '.html',
+          dest: '<%= app %>/'
+        }]
+      }
+    },
 
-		useminPrepare: {
-			html: ['<%= app %>/index.html'],
-			options: {
-				dest: '<%= dist %>'
-			}
-		},
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      all: [
+        'Gruntfile.js',
+        '<%= app %>/js/**/*.js'
+      ]
+    },
 
-		usemin: {
-			html: ['<%= dist %>/**/*.html', '!<%= app %>/bower_components/**'],
-			css: ['<%= dist %>/css/**/*.css'],
-			options: {
-				dirs: ['<%= dist %>']
-			}
-		},
+    clean: {
+      dist: {
+        src: ['<%= dist %>/*']
+      },
+    },
+    copy: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd:'<%= app %>/',
+          src: ['fonts/**', '**/*.html', '!**/*.scss', '!bower_components/**'],
+          dest: '<%= dist %>/'
+        }]
+      },
+    },
 
-		watch: {
-			grunt: {
-				files: ['Gruntfile.js'],
-				tasks: ['sass']
-			},
-			sass: {
-				files: '<%= app %>/scss/**/*.scss',
-				tasks: ['sass']
-			},
-			jade: {
-				files: '<%= app %>/**/*.jade',
-				tasks: ['jade']
-			},
-			livereload: {
-				files: ['<%= app %>/**/*.html', '!<%= app %>/bower_components/**', '<%= app %>/js/**/*.js', '<%= app %>/css/**/*.css', '<%= app %>/images/**/*.{jpg,gif,svg,jpeg,png}'],
-				options: {
-					livereload: true
-				}
-			}
-		},
+    imagemin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: '<%= app %>/images/',
+          src: ['**/*.{jpg,gif,svg,jpeg,png}'],
+          dest: '<%= dist %>/images/'
+        }]
+      }
+    },
 
-		connect: {
-			app: {
-				options: {
-					port: 9000,
-					base: '<%= app %>/',
-					open: true,
-					livereload: true,
-					hostname: '127.0.0.1'
-				}
-			},
-			dist: {
-				options: {
-					port: 9001,
-					base: '<%= dist %>/',
-					open: true,
-					keepalive: true,
-					livereload: false,
-					hostname: '127.0.0.1'
-				}
-			}
-		},
+    uglify: {
+      options: {
+        preserveComments: 'some',
+        mangle: false
+      }
+    },
 
-		wiredep: {
-			target: {
-				src: [
-					'<%= app %>/**/*.jade'
-				],
-				exclude: [
-					'modernizr',
-					'jquery-placeholder',
-					'jquery.cookie',
-					'foundation'
-				]
-			}
-		}
-		
-	});
+    useminPrepare: {
+      html: ['<%= app %>/index.html'],
+      options: {
+        dest: '<%= dist %>'
+      }
+    },
 
-	
-	grunt.loadNpmTasks('grunt-contrib-sass');
-	
-	grunt.loadNpmTasks('grunt-contrib-jade');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-connect');
-	grunt.loadNpmTasks('grunt-usemin');
-	grunt.loadNpmTasks('grunt-wiredep');
-	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-newer');
+    usemin: {
+      html: ['<%= dist %>/**/*.html', '!<%= app %>/bower_components/**'],
+      css: ['<%= dist %>/css/**/*.css'],
+      options: {
+        dirs: ['<%= dist %>']
+      }
+    },
 
-	grunt.registerTask('compile-jade', ['jade']);
-	grunt.registerTask('compile-sass', ['sass']);
-	grunt.registerTask('bower-install', ['wiredep']);
-	
-	grunt.registerTask('default', ['compile-jade', 'compile-sass', 'bower-install', 'connect:app', 'watch']);
-	grunt.registerTask('validate-js', ['jshint']);
-	grunt.registerTask('server-dist', ['connect:dist']);
-	
-	grunt.registerTask('publish', ['compile-jade', 'compile-sass', 'clean:dist', 'validate-js', 'useminPrepare', 'copy:dist', 'newer:imagemin', 'concat', 'cssmin', 'uglify', 'usemin']);
+    watch: {
+      grunt: {
+        files: ['Gruntfile.js'],
+        tasks: ['sass']
+      },
+      sass: {
+        files: '<%= app %>/scss/**/*.scss',
+        tasks: ['sass']
+      },
+      jade: {
+        files: '<%= app %>/**/*.jade',
+        tasks: ['jade']
+      },
+      livereload: {
+        files: ['<%= app %>/**/*.html', '!<%= app %>/bower_components/**', '<%= app %>/js/**/*.js', '<%= app %>/css/**/*.css', '<%= app %>/images/**/*.{jpg,gif,svg,jpeg,png}'],
+        options: {
+          livereload: true
+        }
+      }
+    },
+
+    connect: {
+      app: {
+        options: {
+          port: 9000,
+          base: '<%= app %>/',
+          open: true,
+          livereload: true,
+          hostname: '127.0.0.1'
+        }
+      },
+      dist: {
+        options: {
+          port: 9001,
+          base: '<%= dist %>/',
+          open: true,
+          keepalive: true,
+          livereload: false,
+          hostname: '127.0.0.1'
+        }
+      }
+    },
+
+    wiredep: {
+      target: {
+        src: [
+          '<%= app %>/**/*.jade'
+        ],
+        exclude: [
+          'modernizr',
+          'jquery-placeholder',
+          'jquery.cookie',
+          'foundation'
+        ]
+      }
+    }
+
+  });
+
+  grunt.registerTask('compile-jade', ['jade']);
+  grunt.registerTask('compile-sass', ['sass']);
+  grunt.registerTask('bower-install', ['wiredep']);
+
+  grunt.registerTask('default', ['compile-jade', 'compile-sass', 'bower-install', 'connect:app', 'watch']);
+  grunt.registerTask('validate-js', ['jshint']);
+  grunt.registerTask('server-dist', ['connect:dist']);
+
+  grunt.registerTask('publish', ['compile-jade', 'compile-sass', 'clean:dist', 'validate-js', 'useminPrepare', 'copy:dist', 'newer:imagemin', 'concat', 'cssmin', 'uglify', 'usemin']);
 
 };

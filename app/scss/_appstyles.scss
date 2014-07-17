@@ -1,1 +1,21 @@
-/* all app scss styles here */
+body {
+  font-family: "RobotoDraft",Arial, sans-serif;
+}
+.intro {
+  background: #03a9f4;
+  padding-top: 6em;
+  padding-bottom: 3em;
+
+
+  > h1,
+  h1 > a { color: #fff; }
+
+  > h1 {
+    font-size: 3.8rem;
+  }
+}
+
+
+
+.resource-tile-magenta { background: #ff4081; }
+.resource-tile-purple { background: #a846b9; }
