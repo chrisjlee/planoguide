@@ -13,9 +13,27 @@ body {
   > h1 {
     font-size: 3.8rem;
   }
+  > p { color: #6c6c6c; }
 }
 
 
+.resource-tile > a {
+  padding-top: 5em;
+  padding-bottom: 2em;
+  display: block;
+  color: #fff;
+}
+.resource-tile:hover {
+  box-shadow: 0 12px 15px 0 rgba(0,0,0,.24);
+}
 
-.resource-tile-magenta { background: #ff4081; }
-.resource-tile-purple { background: #a846b9; }
+.background-whitesmoke { background: #eee; }
+.background-magenta { background: #ff4081; }
+.background-purple { background: #a846b9; }
+.background-teal { background: #00bcd4; }
+.background-sandybrown { background: #ffcd40; }
+.background-map { background: #00559d; }
+.background-tomato { background: #ff5252; }
+.background-darkblue { background: #4527a0; }
+.background-salmon { background: #ffab91; }
+.background-yellowgreen { background: #8bc34a; }
